@@ -1,30 +1,31 @@
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
-const { randomBytes} = require('crypto');
+const { randomBytes } = require('crypto');
+const cors = require('cors');
+
+const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 const commentsByPostId = {};
 
-const port = 5000;
-
 app.get('/posts/:id/comments', (req, res) => {
-    res.send(commentsByPostId[req.params.id]);
-})
+  res.send(commentsByPostId[req.params.id] || []);
+});
 
 app.post('/posts/:id/comments', (req, res) => {
-    const commentId = randomBytes(4).toString('hex');
+  const commentId = randomBytes(4).toString('hex');
+  const { content } = req.body;
 
-    const {content} = req.body;
+  const comments = commentsByPostId[req.params.id] || [];
 
-    if (!content) {
-        res.status(400).send(`Content shouldn't be empty!`)
-    }
+  comments.push({ id: commentId, content });
 
-    const comments = commentsByPostId[req.params.id] || [];
-    comments.push({id: commentId, content});
-    commentsByPostId[req.params.id] = comments;
-    res.status(201).send(comments);
-})
+  commentsByPostId[req.params.id] = comments;
 
-app.listen(4001, ()=> console.log(`Comments service started on port ${port}!`));
+  res.status(201).send(comments);
+});
+
+app.listen(4001, () => {
+  console.log('Listening on 4001');
+});

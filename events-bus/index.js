@@ -1,22 +1,20 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const axios = require('axios');
+const express = require("express");
+const bodyParser = require("body-parser");
+const axios = require("axios");
 
 const app = express();
 app.use(bodyParser.json());
-const port = process.env.PORT || 4005
 
-app.post('/events', (req, res)=> {
-    const event = req.body;
-    axios.post('http://localhost:4000/events', event)
+app.post("/events", (req, res) => {
+  const event = req.body;
 
-    axios.post('http://localhost:4001/events', event)
-    axios.post('http://localhost:4002/events', event)
+  axios.post("http://localhost:4000/events", event);
+  axios.post("http://localhost:4001/events", event);
+  axios.post("http://localhost:4002/events", event);
 
-    res.send({status: "OK"})
-    
-})
+  res.send({ status: "OK" });
+});
 
-app.listen(port, ()=> {
-    console.log(`Event bus is running on port ${port}`)
-})
+app.listen(4005, () => {
+  console.log("Listening on 4005");
+});

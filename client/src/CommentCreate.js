@@ -12,6 +12,8 @@ export default ({ postId }) => {
     });
 
     setContent("");
+    window.location.reload()
+
   };
 
   return (

@@ -46,6 +46,6 @@ app.post("/events", (req, res) => {
 });
 
 app.listen(4000, () => {
-  console.log(`Docker change`)
+  console.log(`Docker change for updating image for deployment v2`)
   console.log("Listening on 4000");
 });

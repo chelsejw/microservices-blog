@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const { randomBytes } = require("crypto");
 const cors = require("cors");
 const axios = require("axios");
+const port = process.env.PORT || 4000
 
 const app = express();
 app.use(bodyParser.json());
@@ -45,7 +46,7 @@ app.post("/events", (req, res) => {
   res.send({});
 });
 
-app.listen(4000, () => {
+app.listen(port, () => {
   console.log(`Docker change for updating image for deployment v2`)
-  console.log("Listening on 4000");
+  console.log("Listening on " + port);
 });

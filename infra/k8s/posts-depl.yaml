@@ -14,4 +14,4 @@ spec:
     spec: #configs of pod we are making
       containers: 
         - name: posts
-          image: chelsejw/posts:0.0.2 # THe docker image 
+          image: chelsejw/posts # THe docker image; it will try to use the latest image

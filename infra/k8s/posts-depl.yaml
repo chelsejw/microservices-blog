@@ -1,17 +1,21 @@
-apiVersion: apps/v1
+apiVersion: apps/v1 # A bucket of different Objects (pods, services, deployments)
 kind: Deployment
 metadata:
   name: posts-depl
-spec:
-  replicas: 1
+spec: # How this deployment should behave
+  replicas: 1 # The number of pods that we want running some image
+
+  ## Selector and template work together & tells this deployment which pods it should be managing 
   selector:
     matchLabels:
-      app: posts # Tells deployment to add pods with label app/posts
-  template: #Where we specify the config of the pdds we want the deployment to create
+      app: posts # Look for the pods with label { app: posts } matchLabels are key-value pairs.
+
+  ## Templates are pod configuration -- pretty much a pod config file
+  template: 
     metadata:
       labels:
-        app: posts #we want the pods to have a label app: posts
-    spec: #configs of pod we are making
+        app: posts #we want the pods to have a label { app: posts }
+    spec:
       containers: 
         - name: posts
           image: chelsejw/posts # THe docker image; it will try to use the latest image

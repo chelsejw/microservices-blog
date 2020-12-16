@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: Pod # kind of object
-metadata:
-  name: posts # name of object
-spec:
-  containers:
-    - name: posts # name of container
-      image: chelsejw/posts:0.0.1 # the image it's built from

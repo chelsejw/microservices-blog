@@ -19,3 +19,20 @@ spec: # How this deployment should behave
       containers: 
         - name: posts
           image: chelsejw/posts # THe docker image; it will try to use the latest image
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: posts-clusterip-srv
+spec:
+  selector: # The pods you want to expose, corresponding to their label eg { app: posts }
+    app: posts
+  type: ClusterIP # if not specified, it will default to ClusterIP - so this line is not needed
+  ports:
+    - name: posts
+      protocol: TCP
+      port: 4000
+      targetPort: 4000

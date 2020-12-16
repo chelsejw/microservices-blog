@@ -1,0 +1,21 @@
+apiVersion: apps/v1 # A bucket of different Objects (pods, services, deployments)
+kind: Deployment
+metadata:
+  name: event-bus-depl
+spec: # How this deployment should behave
+  replicas: 1 # The number of pods that we want running some image
+
+  ## Selector and template work together & tells this deployment which pods it should be managing 
+  selector:
+    matchLabels:
+      app: event-bus # Look for the pods with label { app: posts } matchLabels are key-value pairs.
+
+  ## Templates are pod configuration -- pretty much a pod config file
+  template: 
+    metadata:
+      labels:
+        app: event-bus #we want the pods to have a label { app: posts }
+    spec:
+      containers: 
+        - name: posts
+          image: chelsejw/event-bus # THe docker image; it will try to use the latest image

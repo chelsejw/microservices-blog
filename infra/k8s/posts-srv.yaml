@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: posts-srv
 spec:
-  type: NodePort
-  selector: # The pods you want to expose, corresponding to their label
+  type: NodePort # the type of Service
+  selector: # The pods you want to expose, corresponding to their label eg { app: posts }
     app: posts 
   ports:
     - name: posts 
       protocol: TCP
-      port: 4000 # The NodePort service, which can direct traffic to another targetPort
-      targetPort: 4000 # Ultimately where we want to send traffic to
+      port: 4000 # The NodePort services, which could re-direct traffic to another port running the container
+      targetPort: 4000 # The final destination

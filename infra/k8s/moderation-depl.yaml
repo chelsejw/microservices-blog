@@ -1,0 +1,38 @@
+apiVersion: apps/v1 # A bucket of different Objects (pods, services, deployments)
+kind: Deployment
+metadata:
+  name: moderation-depl
+spec: # How this deployment should behave
+  replicas: 1 # The number of pods that we want running some image
+
+  ## Selector and template work together & tells this deployment which pods it should be managing 
+  selector:
+    matchLabels:
+      app: moderation # Look for the pods with label { app: moderation } matchLabels are key-value pairs.
+
+  ## Templates are pod configuration -- pretty much a pod config file
+  template: 
+    metadata:
+      labels:
+        app: moderation #we want the pods to have a label { app: moderation }
+    spec:
+      containers: 
+        - name: moderation
+          image: chelsejw/moderation # THe docker image; it will try to use the latest image
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: moderation-clusterip-srv
+spec:
+  selector: # The pods you want to expose, corresponding to their label eg { app: moderation }
+    app: moderation
+  type: ClusterIP # if not specified, it will default to ClusterIP - so this line is not needed
+  ports:
+    - name: moderation
+      protocol: TCP
+      port: 4003
+      targetPort: 4003

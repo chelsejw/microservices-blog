@@ -19,3 +19,20 @@ spec: # How this deployment should behave
       containers: 
         - name: posts
           image: chelsejw/event-bus # THe docker image; it will try to use the latest image
+
+---
+# to create multiple objects
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: event-bus-srv
+spec:
+  selector: # The pods you want to expose, corresponding to their label eg { app: posts }
+    app: event-bus 
+  type: ClusterIP # if not specified, it will default to ClusterIP - so this line is not needed
+  ports:
+    - name: event-bus
+      protocol: TCP
+      port: 4005
+      targetPort: 4005

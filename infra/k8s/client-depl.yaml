@@ -1,0 +1,38 @@
+apiVersion: apps/v1 # A bucket of different Objects (pods, services, deployments)
+kind: Deployment
+metadata:
+  name: client-depl
+spec: # How this deployment should behave
+  replicas: 1 # The number of pods that we want running some image
+
+  ## Selector and template work together & tells this deployment which pods it should be managing 
+  selector:
+    matchLabels:
+      app: client # Look for the pods with label { app: client } matchLabels are key-value pairs.
+
+  ## Templates are pod configuration -- pretty much a pod config file
+  template: 
+    metadata:
+      labels:
+        app: client #we want the pods to have a label { app: client }
+    spec:
+      containers: 
+        - name: client
+          image: chelsejw/client # THe docker image; it will try to use the latest image
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-srv
+spec:
+  selector: # The pods you want to expose, corresponding to their label eg { app: client }
+    app: client
+  type: ClusterIP # if not specified, it will default to ClusterIP - so this line is not needed
+  ports:
+    - name: client
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

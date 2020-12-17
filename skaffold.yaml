@@ -1,0 +1,58 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/* # watches changes for these files and apply changes automatically, will delete objects created when skaffold stops as well
+build:
+  local:
+    push: false # don't push to docker hub
+  artifacts:
+    - image: chelsejw/client
+      context: client # directory 
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.js' # when changes are made to js files, it will copy paste that file directly to the pod. If it doesn't match this, it will rebuild the image and update the deployment
+            dest: .
+    - image: chelsejw/comments
+      context: comments # directory 
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.js' # when changes are made to js files, it will copy paste that file directly to the pod. If it doesn't match this, it will rebuild the image and update the deployment
+            dest: .
+    - image: chelsejw/event-bus
+      context: events-bus # directory 
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.js' # when changes are made to js files, it will copy paste that file directly to the pod. If it doesn't match this, it will rebuild the image and update the deployment
+            dest: .
+    - image: chelsejw/moderation
+      context: moderation # directory 
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.js' # when changes are made to js files, it will copy paste that file directly to the pod. If it doesn't match this, it will rebuild the image and update the deployment
+            dest: .
+    - image: chelsejw/posts
+      context: posts # directory 
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.js' # when changes are made to js files, it will copy paste that file directly to the pod. If it doesn't match this, it will rebuild the image and update the deployment
+            dest: .
+    - image: chelsejw/query
+      context: query # directory 
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.js' # when changes are made to js files, it will copy paste that file directly to the pod. If it doesn't match this, it will rebuild the image and update the deployment
+            dest: .
